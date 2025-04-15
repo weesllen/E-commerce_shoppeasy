@@ -23,6 +23,7 @@ media/
 # staticfiles/
 
 # Ambientes virtuais
+shoppeasy/venv/
 .env
 .venv/
 venv/
