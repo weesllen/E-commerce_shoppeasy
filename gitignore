@@ -1,0 +1,134 @@
+
+# Logs
+*.log
+
+# Traduções
+*.pot
+*.mo
+
+# Banco de dados local
+db.sqlite3
+db.sqlite3-journal
+
+# Arquivos gerados pelo Django
+__pycache__/
+*.py[cod]
+*$py.class
+local_settings.py
+
+# Pasta media (uploads)
+media/
+
+# Arquivos estáticos gerados (se não quiser versionar)
+# staticfiles/
+
+# Ambientes virtuais
+.env
+.venv/
+venv/
+ENV/
+env/
+env.bak/
+venv.bak/
+pyvenv.cfg
+
+# Pacotes e distribuições
+.eggs/
+*.egg
+*.egg-info/
+dist/
+build/
+develop-eggs/
+downloads/
+lib/
+lib64/
+parts/
+sdist/
+wheels/
+share/python-wheels/
+.installed.cfg
+MANIFEST
+
+# Configurações específicas de ferramentas Python
+.Python
+*.manifest
+*.spec
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Cache de testes e coverage
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.pytest_cache/
+.hypothesis/
+
+# Ferramentas de análise de tipos
+.mypy_cache/
+.dmypy.json
+.pyre/
+.pytype/
+
+# Documentação
+docs/_build/
+site/
+
+# Notebooks Jupyter
+.ipynb_checkpoints
+
+# Spyder
+.spyderproject
+.spyproject
+
+# Rope
+.ropeproject
+
+# mkdocs
+/site
+
+# PyBuilder
+.pybuilder/
+target/
+
+# Configurações específicas de projetos
+*.sublime-project
+*.sublime-workspace
+
+# PyCharm (JetBrains)
+.idea/
+
+# pipenv / poetry / pdm
+
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
