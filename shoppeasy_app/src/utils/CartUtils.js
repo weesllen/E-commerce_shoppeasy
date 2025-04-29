@@ -9,4 +9,15 @@ function generateRandomAlphaNumeric(length = 10){
         return result
 
 }
-export const randomValue = generateRandomAlphaNumeric();
+
+function getOrCreateCartCode() {
+    let cart_code = localStorage.getItem('cart_code');
+    if (!cart_code) {
+      cart_code = generateRandomAlphaNumeric();
+      localStorage.setItem('cart_code', cart_code);
+    }
+    return cart_code;
+}
+
+export { generateRandomAlphaNumeric, getOrCreateCartCode };
+// export const randomValue = generateRandomAlphaNumeric();

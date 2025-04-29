@@ -8,7 +8,7 @@ const ProductPagePlaceHolder = () => {
                 <div className='col md-6'>
                 <img  
                     className="card-img-top mb-5 mb-md-8"
-                    src="" 
+                    src="https://dummyimage.com/600x700/dee2e6/6c757d.jpg" 
                     alt="..." 
                 />
                 </div>
