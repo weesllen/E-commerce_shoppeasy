@@ -6,6 +6,10 @@ import HomePage from "./components/home/Homepage"
 import { useEffect, useState } from "react"
 import CartPage from "./components/cart/CartPage"
 import api from "./api"
+import CheckoutPage from "./components/checkout/CheckoutPage"
+import LoginPage from "./components/user/LoginPage"
+import ProtectedRouter from "./components/ui/ProtectedRouter"
+import { AuthProvider } from "./components/context/AuthContext"
 
 const App = () => {
 
@@ -29,16 +33,34 @@ const App = () => {
   },[])
 
   return (
+    <AuthProvider>
     <BrowserRouter>
+
+
     <Routes>
+
       <Route path="/" element={<MainLayout numCartItems={numCartItems} />}>
       <Route index element={<HomePage />} />
       <Route path="products/:slug" element={<ProductsPage  setNumberCartItems={setNumberCartItems} />} />
       <Route path="cart" element={<CartPage setNumberCartItems={setNumberCartItems}/>} />
+      <Route path="checkout" element= {
+        <ProtectedRouter>
+        <CheckoutPage />
+        </ProtectedRouter>
+      }/>
+
+      <Route path="login" element={<LoginPage />} />
       <Route path="*" element={<NotFoundPage />} />
+
+
       </Route>
+
+
     </Routes>
+
+
     </BrowserRouter>
+    </AuthProvider>
   )
 }
 

@@ -1,0 +1,83 @@
+.login-title {
+    text-align: center;
+}
+
+.login-subtitle{
+    font-size:  16px;
+    color: #777;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.login-card {
+    background-color: #fff;
+    padding: 40px 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+}
+
+body, html {
+    height: 100%;
+    margin: 0;
+    background-color: #f4f6f9;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.form-label {
+    font-weight: 500;
+    color: #333;
+}
+
+.form-control {
+    border-radius: 6px;
+    padding: 10px;
+    font-size: 16px;
+}
+
+.btn-primary {
+    background-color: #6050DC;
+    border-color: #6050DC;
+    font-size: 18px;
+    font-weight: 500;
+    margin-top: 10px;
+}
+
+.btn-primary:hover{
+    background-color: #4b3bcb;
+    border-color: #4b3bcb;
+}
+
+.login-footer {
+    margin: 5px 0;
+    font-size: 14px;
+
+}
+
+.login-footer p {
+    margin: 5px 0;
+    font-size: 14px;
+    text-align: center;
+}
+
+.login-footer a {
+    color: #6050DC;
+    text-decoration: none;
+}
+
+.login-footer a:hover {
+    text-decoration: underline;
+}
+
+.form-check-label {
+    font-size: 14px;
+    color: #555;
+}

@@ -1,6 +1,11 @@
-import OrderItem from "./OrderItem"
-import styles from "./OrderSummary.module.css"
-const OrderSummary = () => {
+import CartItem from "../cart/CartItem";
+import OrderItem from "./OrderItem";
+import styles from "./OrderSummary.module.css";
+
+const OrderSummary = ({cartItems, cartTotal, tax}) => {
+
+  const total = (cartTotal + tax)
+
   return (
     <div className="col-md-8">
     <div className={`card mb-4 ${styles.card}`}>
@@ -10,12 +15,13 @@ const OrderSummary = () => {
         <div className="card-body">
 
             <div className="px-3" style={{height:'300px',overflow:'auto'}}>
-
-                {<OrderItem />}
+              
+                {cartItems.map(cartItem => <OrderItem  key={cartItem.id} cartItem={cartItem} />)}
+                
             </div>
             <div className="d-flex justify-content-between"> 
-              <h6>ToTal</h6>
-              <h6>R$100,00</h6>
+              <h6>Total</h6>
+              <h6>{`R$ ${total}`}</h6>
 
             </div>
         </div>

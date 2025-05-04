@@ -19,7 +19,7 @@ const NavBar = ({numCartItems}) => {
             >
               <span className='navbar-toggler-icon'></span>
             </button> 
-            <div className='collapse navbar-collapse' id ='navbarContent'>
+            <div className='collapse navbar-collapse justify-content-end' id ='navbarContent'>
                 <NavBarLink/>
                 <Link to= '/cart' className={`btn-dark ms-3 rounded-pill position-relative ${styles.responsivecart}`}>
                 <FaCartShopping/>

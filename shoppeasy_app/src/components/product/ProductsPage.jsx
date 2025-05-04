@@ -34,21 +34,6 @@ const ProductsPage = ({setNumberCartItems}) => {
       }
     },[cart_code,product.id])
     
-    
-    /*function add_item(){
-      console.log("Enviando para add_item:", newItem)
-      api.post('add_item/',newItem)
-      .then(res =>{
-        console.log(res.data)
-        setInCart(true)
-        setNumberCartItems(curr => curr +1)
-      })
-      
-      .catch(err => {
-        console.log(err.message)
-        
-        })
-        }*/
        function add_item() {
         const newItem = { cart_code: cart_code, product_id: product.id };
       
@@ -61,7 +46,7 @@ const ProductsPage = ({setNumberCartItems}) => {
           console.log(res.data);
           setInCart(true);
           setNumberCartItems(curr => curr + 1);
-          toast.success('Iem adicionado no carrinho com sucesso!')
+          toast.success('Item adicionado no carrinho com sucesso!')
         })
         .catch(err => {
           console.error(err.message);
@@ -106,14 +91,10 @@ const ProductsPage = ({setNumberCartItems}) => {
             <div className="col-md-6">
                 <h1 className="display-5 fw-bolder">{product.name} </h1>
                 <div className="fs-5 mb-5">
-                    <span>{`$${product.price}`}</span>
+                    <span>{`R$ ${product.price}`}</span>
                 </div>
                 <p className="lead">
-                There are many variations of passages of Lorem Ipsum available, 
-                but the majority have suffered alteration in some form, by injected
-                humour, or randomised words which don't look even slightly believable.
-                If you are going to use a passage of Lorem Ipsum, you need to be sure
-                there isn't anything embarrassing hidden in the middle of text.
+                {product.description}
                 </p>
                 <div className="d-flex">
                     <button className=" btn btn-outline-dark flex-shrink-0"

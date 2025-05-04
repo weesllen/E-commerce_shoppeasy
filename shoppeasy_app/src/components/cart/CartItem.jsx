@@ -23,10 +23,10 @@ const CartItem = ({item,setCartItems,setCartTotal,cartItems, setNumberCartItems}
       toast.success('Item Deletado com sucesso!')
       setCartItems(cartItems.filter(cartItem => cartItem != item.id))
 
-      setCartTotal(cartItems.filter((cartItem) => cartItem.id != item.id)
+      setCartTotal(cartItems.filter(cartItem => cartItem.id != item.id)
       .reduce((acc,curr) => acc + curr.total,0)) 
       
-      setNumberCartItems(cartItems.filter((cartItem) => cartItem.id != item.id)
+      setNumberCartItems(cartItems.filter(cartItem => cartItem.id != item.id)
       .reduce((acc,curr) => acc+curr.total,0))
     })
 
@@ -45,11 +45,13 @@ const CartItem = ({item,setCartItems,setCartTotal,cartItems, setNumberCartItems}
       setLoading(false)
       toast.success('Item atualizando com sucesso!')
 
-      setCartTotal(cartItems.map((cartItem) => cartItem.id === item.id ? res.data.data: cartItem)
-      .reduce((acc,curr) => acc + curr.total,0)) 
+      setCartTotal(
+        cartItems.map(cartItem => cartItem.id === item.id ? res.data.data: cartItem)
+        .reduce((acc,curr) => acc + curr.total,0)) 
       
-      setNumberCartItems(cartItems.map((cartItem) => cartItem.id === item.id ? res.data.data: cartItem )
-      .reduce((acc,curr) => acc+curr.total,0))
+      setNumberCartItems(
+        cartItems.map(cartItem => cartItem.id === item.id ? res.data.data: cartItem )
+        .reduce((acc,curr) => acc + curr.total,0))
     })
     
     .catch(err => {
@@ -72,7 +74,7 @@ const CartItem = ({item,setCartItems,setCartTotal,cartItems, setNumberCartItems}
       />
       <div className="ms-3 flex-grow-1">
         <h5 className="mb-1">{item.product.name}</h5>
-        <p className="mb-0 text-muted">{ `$${item.product.price}` }</p>
+        <p className="mb-0 text-muted">{ `R$ ${item.product.price}` }</p>
         </div>
         <div className=" d-flex align-items-center">
             <input type="number"

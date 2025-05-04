@@ -1,33 +1,11 @@
-import React, { useEffect, useState } from 'react'
 import CartSumary from './CartSumary'
 import CartItem from './CartItem'
-import api from '../../api'
 import Spinner from '../ui/Spinner'
+import useCartData from '../hooks/UseCartData'
 
 const CartPage = ({setNumberCartItems}) => {
 
-  const cart_code = localStorage.getItem('cart_code')
-  const [cartItems, setCartItems] = useState([])
-  const [cartTotal, setCartTotal] = useState(0.00)
-  const [loading, setLoading]= useState(false)
-  const tax = 4.00
-
-  useEffect(function(){
-    setLoading(true)
-    api.get(`get_cart?cart_code=${cart_code}`)
-    .then(res =>{
-      console.log(res.data)
-      setCartItems(res.data.items)
-      setCartTotal(res.data.sum_total)
-      setCartTotal(false)
-  })
-
-    .catch(err =>{
-      console.log(err.message)
-      setLoading(false)
-    })
-
-  },[])
+  const {cartItems,setCartItems, cartTotal, setCartTotal, loading, tax} = useCartData()
 
   if(loading){
     return < Spinner loading={loading} />
@@ -36,9 +14,10 @@ const CartPage = ({setNumberCartItems}) => {
 
   return (
     <div className='container my-3 py-3'>
-      <h5 className='mb-4'>Carrinho</h5>
+      <h5 className='mb-4'
+      >Carrinho</h5>
       <div className='row'>
-        <div className='col-md-8'>
+        <div className='col-md-8'style={{ height: '60vh',overflow:'auto'}}>
           {cartItems.length  > 0 ? (
             cartItems.map(item => <CartItem key= {item.id} item={item} 
               setCartTotal={setCartTotal} 
@@ -47,7 +26,9 @@ const CartPage = ({setNumberCartItems}) => {
               setCartItems={setCartItems}
                />)
           ) : (
-            <div className="alert alert-primary my-5" role='alert'></div>
+            <div className="alert alert-primary my-5" role='alert'>
+              Seu carrinho está vazio.
+            </div>
           )}
         
         </div>

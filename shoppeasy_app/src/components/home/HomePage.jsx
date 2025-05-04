@@ -4,7 +4,6 @@ import api from '../../api'
 import { useEffect,useState } from 'react'
 import PlaceHolderContainer from '../ui/PlaceHolderContainer'
 import Error from '../ui/Error'
-//import { randomValue } from '../../GenerateCartCode'
 import { getOrCreateCartCode } from '../../utils/CartUtils'
 
 const HomePage = () => {
@@ -49,5 +48,3 @@ const HomePage = () => {
 }
 
 export default HomePage
-
-//{loading || error !="" || <CardContainer products={products} />}

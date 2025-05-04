@@ -2,11 +2,12 @@ from django.shortcuts import render
 from rest_framework import generics
 from shopp_app.models import Product,Cart,CartItem
 from shopp_app.serializers import ProductSerializers,CartItemSerializer,SimpleCartSerializer,CartSerializer
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view,permission_classes
 from rest_framework.response import Response
 from shopp_app.serializers import DetailedProductSerializers
 from django.contrib.auth import get_user_model
 from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
 
 
 @api_view(['GET'])
@@ -23,23 +24,6 @@ def product_detail(request,slug):
     return Response(serializer.data)
 
 
-# @api_view(['POST'])
-# def add_item(request):
-#     try:
-#         cart_code = request.data.get('cart_code')
-#         product_id = request.data.get('product_id')
-
-#         cart, created = Cart.objects.get_or_create(cart_code = cart_code)
-#         product = Product.objects.get(id = product_id)
-
-#         cartitem, created = CartItem.objects.get_or_create(cart=cart, product=product)
-#         cartitem.quantity = 1
-#         cartitem.save()
-
-#         serializer = CartItemSerializer(cartitem)
-#         return Response({'datat': serializer.data,'message': 'cartItem created sucessfully'}, status= 201)
-#     except Exception as e:
-#         return Response({'error': str(e)},status=400)
 User = get_user_model()
 
 @api_view(['POST'])
@@ -97,8 +81,9 @@ def get_cart(request):
     return Response(serializer.data)    
 
 
-api_view(['PATCH']) 
+@api_view(['PATCH']) 
 def update_quantity(request):
+    
     try:
         cart_item_id = request.data.get('item_id')
         quantity = request.data.get('quantity')
@@ -112,9 +97,16 @@ def update_quantity(request):
         return Response({'error': str(e)}, status=400)
     
 
-api_view(['POST'])
+@api_view(['POST'])
 def delete_cart_item(request):
     cart_item_id = request.data.get('item_id')
     cart_item = CartItem.objects.get(id = cart_item_id)
     cart_item.delete()
     return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_username(request):
+    user = request.user
+    return Response({'username': user.username})
