@@ -9,7 +9,7 @@ const OrderSummary = ({cartItems, cartTotal, tax}) => {
   return (
     <div className="col-md-8">
     <div className={`card mb-4 ${styles.card}`}>
-        <div className="card-header" style={{background:'#6050DC',color:'white'}}>
+        <div className="card-header" style={{background:'#0E689F',color:'white'}}>
             <h5>Sumário do Carrinho</h5>
         </div>
         <div className="card-body">

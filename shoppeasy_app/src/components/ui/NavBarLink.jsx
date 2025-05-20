@@ -4,7 +4,14 @@ import { AuthContext } from "../context/AuthContext";
 
 const NavBarLink = () => {
 
-    const { isAuthenticated } = useContext(AuthContext);
+    const { isAuthenticated,username,setIsAuthenticated } = useContext(AuthContext);
+
+
+    function logout(){
+      localStorage.removeItem('access')
+      localStorage.removeItem('refresh')
+      setIsAuthenticated(false)
+    }
 
   return (
     <ul className="navbar-nav ms-auto mb-2 mb-1g-0">
@@ -27,7 +34,7 @@ const NavBarLink = () => {
         {/*Contato*/}
         <li className="nav-item" >
           <NavLink
-          to = '/contato'
+          to = '/contact'
           className={({ isActive }) =>
             isActive ? "nav-link active fw-semibold" : "nav-link fw-semibold"
         }
@@ -46,14 +53,14 @@ const NavBarLink = () => {
        }
        end
          >
-           Hi Wesllen!!
+           {` Hi ${username}`}
          </NavLink>
        </li>
 
 
-       <li className="nav-item" >
+       <li className="nav-item" onClick={logout} >
          <NavLink
-         to = '/logout'
+         to = '/'
          className={({ isActive }) =>
            isActive ? "nav-link active fw-semibold" : "nav-link fw-semibold"
        }
@@ -85,7 +92,7 @@ const NavBarLink = () => {
         {/*Contato*/}
         <li className="nav-item" >
           <NavLink
-          to = '/contato'
+          to = '/contact'
           className={({ isActive }) =>
             isActive ? "nav-link active fw-semibold" : "nav-link fw-semibold"
         }

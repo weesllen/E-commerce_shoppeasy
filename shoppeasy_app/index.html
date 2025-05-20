@@ -4,6 +4,14 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<meta http-equiv="Content-Security-Policy"
+  content="default-src 'self';
+           style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://stackpath.bootstrapcdn.com;
+           script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://stackpath.bootstrapcdn.com;
+           img-src 'self' data: https: http://127.0.0.1:8001 http://localhost:8001 https://www.paypalobjects.com;
+          connect-src 'self' https: http://127.0.0.1:8001 https://www.paypal.com https://www.paypalobjects.com;">
+           
     <title>Vite + React</title>
   </head>
   <body>

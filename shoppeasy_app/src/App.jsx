@@ -10,6 +10,10 @@ import CheckoutPage from "./components/checkout/CheckoutPage"
 import LoginPage from "./components/user/LoginPage"
 import ProtectedRouter from "./components/ui/ProtectedRouter"
 import { AuthProvider } from "./components/context/AuthContext"
+import UserprofilePage from "./components/user/UserprofilePage"
+import PaymentStatusPage from "./components/payment/PaymentStatusPage"
+import ContactUs from "./components/ui/ContactUs"
+import UseRegister from "./components/user/UseRegister"
 
 const App = () => {
 
@@ -50,6 +54,10 @@ const App = () => {
       }/>
 
       <Route path="login" element={<LoginPage />} />
+      <Route path="profile" element={<UserprofilePage />} />
+      <Route path="payment-status" element={<PaymentStatusPage setNumberCartItems={setNumberCartItems} />} />
+      <Route path="/register" element={<UseRegister />} />
+      <Route path="/contact" element={<ContactUs />} />
       <Route path="*" element={<NotFoundPage />} />
 
 

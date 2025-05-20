@@ -8,7 +8,7 @@ class CustomUserAdmin(UserAdmin):
         (None, {
             'classes': ('wide',),
             'fields': ('username','email','first_name','last_name','password1',
-                       'password2','city','state','address','phone','is_staff','is_activate')
+                       'password2','city','state','address','phone','is_staff','is_active')
         }),
     )
 

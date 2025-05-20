@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom"
 
 
-
 const CartSumary = ({cartTotal,tax}) => {
 
     const subTotal = cartTotal.toFixed(2)

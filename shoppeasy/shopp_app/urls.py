@@ -11,7 +11,12 @@ urlpatterns = [
     path('get_cart/',views.get_cart,name='get_cart'),
     path('update_quantity/',views.update_quantity, name='update_quantity'),
     path('delete_cart_item/',views.delete_cart_item, name='delete_cart_item'),
-    path('get_username', views.get_username,name='get_username')
+    path('UserRegister/',views.UserRegister,name='UserRegister'),
+    path('get_username', views.get_username,name='get_username'),
+    path('user_info/',views.user_info,name='user_info'),
+    path('initiate_paypal_payment/',views.initiate_paypal_payment,name='initiate_paypal_payment'),
+    path('paypal_payment_callback/',views.paypal_payment_callback,name='paypal_payment_callback'),
+
 ]
 
 #fetching all products: http://127.0.0.1:8001/products

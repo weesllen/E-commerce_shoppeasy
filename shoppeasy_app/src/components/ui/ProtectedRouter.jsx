@@ -18,12 +18,14 @@ const ProtectedRouter = ({children}) => {
     async function refreshToken() {
         
        const refreshToken = localStorage.getItem('refresh')
-        try {
+        if (!refreshToken) return false
+    
+       try {
             const res = await api.post('token/refresh/',{
                 refresh: refreshToken,
             })
             if(res.status === 200){
-                localStorage.getItem('access',res.data.access)
+                localStorage.setItem('access',res.data.access)
                 setIsAuthorized(true)
             }
             else {

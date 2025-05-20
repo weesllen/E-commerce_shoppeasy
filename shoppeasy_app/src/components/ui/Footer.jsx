@@ -8,9 +8,9 @@ const Footer = () => {
     <div className='container text-center'>    
         <div className='mb-2'>
             <a href='#' className='text-white text-decoration-none mx-2'>Home</a>
-            <a href='#' className='text-white text-decoration-none mx-2'>About</a>
-            <a href='#' className='text-white text-decoration-none mx-2'>Shop</a>
-            <a href='#' className='text-white text-decoration-none mx-2'>Contact</a>
+            <a href='#' className='text-white text-decoration-none mx-2'>Sobre nós</a>
+            <a href='#' className='text-white text-decoration-none mx-2'>Loja</a>
+            <a href='#' className='text-white text-decoration-none mx-2'>Contatos</a>
       
         </div>
 

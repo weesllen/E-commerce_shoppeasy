@@ -3,6 +3,7 @@ import api from '../../api'
 import { useLocation, useNavigate } from 'react-router-dom'
 import './LoginPage.css'
 import { AuthContext } from '../context/AuthContext'
+import { toast } from 'react-toastify'
 
 const LoginPage = () => {
 
@@ -13,7 +14,7 @@ const LoginPage = () => {
     const [password, setPassword] = useState('')
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState('')
-    const { setIsAuthenticated } = useContext(AuthContext)
+    const { setIsAuthenticated,get_username } = useContext(AuthContext)
 
     const UserInfo = {username,password}
 
@@ -30,6 +31,7 @@ const LoginPage = () => {
             setPassword('')
             setLoading(false)
             setIsAuthenticated(true)
+            get_username()
             setError('')
 
             const from = location?.state?.from.pathname || '/';
@@ -40,6 +42,8 @@ const LoginPage = () => {
             console.log(err.message)
             setError(err.message)
             setLoading(false)
+            toast.error('Senha invalida, Tente novamente!')
+
     })
     }
 
@@ -48,7 +52,7 @@ const LoginPage = () => {
         <div className='login-card shadow'>
             {error && <Error error={error} />}
             <h2 className='login-title'> Bem-Vindo!</h2>
-            <p className='login-subtitle'> Por favor, acesse dua conta</p>
+            <p className='login-subtitle'> Por favor, acesse sua conta</p>
             <form onSubmit={handleSubmit}>
                 <div className='mb-3'>
                     <label htmlFor="username" className='form-label'>Usuário</label>

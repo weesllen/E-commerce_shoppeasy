@@ -1,15 +1,10 @@
-.paypalButton, flutterwaveButton {
+.paypalButton {
     font-size: 1.1rem;
     font-weight: 600;
 }
 
-.flutterwaveButton {
-    background-color: #f89500;
-    border: none;
-    color: white;
-}
 
-.paypalButton:hover, .flutterwaveButton:hover {
+.paypalButton:hover {
     opacity: 0.9;
 }
 

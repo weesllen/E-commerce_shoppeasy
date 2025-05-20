@@ -15,10 +15,8 @@ const ProductsPage = ({setNumberCartItems}) => {
   const [similarProducts, setSimilarProducts] = useState([])
   const [loading, setLoading] = useState(false)
   const[InCart,setInCart] = useState(false)
- // const cart_code = localStorage.getItem('cart_code')
   const cart_code = getOrCreateCartCode();
 
-  //const newItem = {cart_code: cart_code,product_id: product.id}
   
   useEffect(function(){
     if(product.id){
@@ -103,7 +101,7 @@ const ProductsPage = ({setNumberCartItems}) => {
                     disabled={InCart}
                     >
                       <i className="bi-cart-fill me-1"></i>
-                      {InCart ? 'Product added to cart' : 'Add to cart  '}  
+                      {InCart ? 'Adicionado no carrinho' : 'Comprar '}  
                     </button>
                 </div>
             </div>
