@@ -3,6 +3,7 @@ from shopp_app import views
 
 
 urlpatterns = [
+    path('', views.api_home, name='api_home'),
     path('products/',views.products, name='products'),
     path('product_detail/<slug:slug>',views.product_detail, name='product_detail'),
     path('add_item/',views.add_item, name='add_item'),
@@ -16,7 +17,8 @@ urlpatterns = [
     path('user_info/',views.user_info,name='user_info'),
     path('initiate_paypal_payment/',views.initiate_paypal_payment,name='initiate_paypal_payment'),
     path('paypal_payment_callback/',views.paypal_payment_callback,name='paypal_payment_callback'),
+    path('payment_callback/',views.paypal_payment_callback,name='payment_callback'),
 
 ]
 
-#fetching all products: http://127.0.0.1:8001/products
+# fetching all products: http://127.0.0.1:8000/products/

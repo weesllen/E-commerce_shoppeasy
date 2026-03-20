@@ -13,11 +13,11 @@ const CartPage = ({setNumberCartItems}) => {
 
 
   return (
-    <div className='container my-3 py-3'>
-      <h5 className='mb-4'
-      >Carrinho</h5>
-      <div className='row'>
-        <div className='col-md-8'style={{ height: '60vh',overflow:'auto'}}>
+    <div className='container my-4 py-3'>
+      <h4 className='mb-4 fw-semibold'>Seu Carrinho</h4>
+      <div className='row g-4 align-items-start'>
+        <div className='col-12 col-lg-8'>
+          <div style={{ maxHeight: '65vh', overflowY: 'auto', paddingRight: '4px' }}>
           {cartItems.length  > 0 ? (
             cartItems.map(item => <CartItem key= {item.id} item={item} 
               setCartTotal={setCartTotal} 
@@ -30,7 +30,7 @@ const CartPage = ({setNumberCartItems}) => {
               Seu carrinho está vazio.
             </div>
           )}
-        
+          </div>
         </div>
 
       <CartSumary cartTotal={cartTotal} tax={tax} />

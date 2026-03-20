@@ -130,7 +130,7 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
-MEDIA_URL = 'img/'
+MEDIA_URL = '/img/'
 MEDIA_ROOT = BASE_DIR/"media"
 
 
@@ -145,12 +145,18 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "http://localhost:5174",
     "http://localhost:5175",
+    "http://127.0.0.1:5173",
+    "http://127.0.0.1:5174",
+    "http://127.0.0.1:5175",
 ]
 
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost:5173",
     "http://localhost:5174",
     "http://localhost:5175",
+    "http://127.0.0.1:5173",
+    "http://127.0.0.1:5174",
+    "http://127.0.0.1:5175",
 ]
 
 REST_FRAMEWORK = {
@@ -158,10 +164,7 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
     'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.AllowAny'  
-    ),
-    'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticated',  
+        'rest_framework.permissions.AllowAny',
     ),
 }
 
@@ -174,4 +177,4 @@ PAYPAL_CLIENT_ID = config('PAYPAL_CLIENT_ID')
 PAYPAL_CLIENT_SECRET = config('PAYPAL_CLIENT_SECRET')
 PAYPAL_MODE = config('PAYPAL_MODE', default='sandbox')
 
-REACT_BASE_URL = os.getenv('REACT_BASE_URL','https://localhost:5143')
+REACT_BASE_URL = os.getenv('REACT_BASE_URL', 'http://localhost:5173')

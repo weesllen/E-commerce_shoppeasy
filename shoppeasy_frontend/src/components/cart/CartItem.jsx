@@ -5,7 +5,7 @@ import { toast } from "react-toastify"
 
 const CartItem = ({item,setCartItems,setCartTotal,cartItems, setNumberCartItems}) => {
   
-  const [quantity,setQuantity] = useState(item.quantity)
+  const [quantity,setQuantity] = useState(Number(item.quantity) || 1)
   const [loading,setLoading] = useState(false)
   
   const itemData = {quantity:quantity, item_id:item.id}
@@ -21,13 +21,10 @@ const CartItem = ({item,setCartItems,setCartTotal,cartItems, setNumberCartItems}
     .then( res =>{
       console.log(res)
       toast.success('Item Deletado com sucesso!')
-      setCartItems(cartItems.filter(cartItem => cartItem != item.id))
-
-      setCartTotal(cartItems.filter(cartItem => cartItem.id != item.id)
-      .reduce((acc,curr) => acc + curr.total,0)) 
-      
-      setNumberCartItems(cartItems.filter(cartItem => cartItem.id != item.id)
-      .reduce((acc,curr) => acc+curr.total,0))
+      const updatedCartItems = cartItems.filter(cartItem => cartItem.id !== item.id)
+      setCartItems(updatedCartItems)
+      setCartTotal(updatedCartItems.reduce((acc,curr) => acc + Number(curr.total),0))
+      setNumberCartItems(updatedCartItems.reduce((acc,curr) => acc + Number(curr.quantity),0))
     })
 
     .catch(err =>{
@@ -45,13 +42,10 @@ const CartItem = ({item,setCartItems,setCartTotal,cartItems, setNumberCartItems}
       setLoading(false)
       toast.success('Item atualizando com sucesso!')
 
-      setCartTotal(
-        cartItems.map(cartItem => cartItem.id === item.id ? res.data.data: cartItem)
-        .reduce((acc,curr) => acc + curr.total,0)) 
-      
-      setNumberCartItems(
-        cartItems.map(cartItem => cartItem.id === item.id ? res.data.data: cartItem )
-        .reduce((acc,curr) => acc + curr.total,0))
+      const updatedCartItems = cartItems.map(cartItem => cartItem.id === item.id ? res.data.data: cartItem)
+      setCartItems(updatedCartItems)
+      setCartTotal(updatedCartItems.reduce((acc,curr) => acc + Number(curr.total),0))
+      setNumberCartItems(updatedCartItems.reduce((acc,curr) => acc + Number(curr.quantity),0))
     })
     
     .catch(err => {
@@ -61,10 +55,10 @@ const CartItem = ({item,setCartItems,setCartTotal,cartItems, setNumberCartItems}
   }
 
   return (
-    <div className="col-md-12">
+    <div className="col-12">
       <div
-      className="cart-item d-flex align-items-center mb-3 p-3"
-      style={{background: '#f8f9fw', borderRadius: '8px'}}
+      className="cart-item d-flex flex-column flex-md-row align-items-start align-items-md-center mb-3 p-3"
+      style={{background: '#f8f9fa', borderRadius: '12px', border: '1px solid #e9ecef', gap: '12px'}}
       >
       <img 
       src={`${BASE_URL}${item.product.image}` } 
@@ -72,19 +66,19 @@ const CartItem = ({item,setCartItems,setCartTotal,cartItems, setNumberCartItems}
       className="img-fluid"
       style={{width: '80px', height: '80px', objectFit: 'cover', borderRadius: '5px'}}
       />
-      <div className="ms-3 flex-grow-1">
+      <div className="flex-grow-1 ms-md-3" style={{ minWidth: 0 }}>
         <h5 className="mb-1">{item.product.name}</h5>
-        <p className="mb-0 text-muted">{ `R$ ${item.product.price}` }</p>
+        <p className="mb-0 text-muted">{ `R$ ${Number(item.product.price).toFixed(2)}` }</p>
         </div>
-        <div className=" d-flex align-items-center">
+        <div className="d-flex align-items-center gap-2 ms-md-auto flex-shrink-0" style={{ minWidth: '210px' }}>
             <input type="number"
-            className="form-control me-2"
+            className="form-control"
             min='1'
             value={quantity}
-            onChange={(e) => setQuantity(e.target.value)}
-            style={{ width:'70px'}} 
+            onChange={(e) => setQuantity(Math.max(1, Number(e.target.value) || 1))}
+            style={{ width:'78px'}} 
             />
-            <button className="btn btn-sm mx-2"
+            <button className="btn btn-sm"
             onClick={updateCartItem}
             style={{background:'#4B3BCB', color: 'white'}} disabled={loading}>
               {loading ? 'Atualizando' : 'Atualizar'}

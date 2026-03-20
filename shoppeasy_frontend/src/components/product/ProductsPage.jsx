@@ -16,6 +16,10 @@ const ProductsPage = ({setNumberCartItems}) => {
   const [loading, setLoading] = useState(false)
   const[InCart,setInCart] = useState(false)
   const cart_code = getOrCreateCartCode();
+  const formattedPrice = new Intl.NumberFormat('pt-BR', {
+    style: 'currency',
+    currency: 'BRL',
+  }).format(Number(product.price || 0))
 
   
   useEffect(function(){
@@ -88,20 +92,23 @@ const ProductsPage = ({setNumberCartItems}) => {
             </div>
             <div className="col-md-6">
                 <h1 className="display-5 fw-bolder">{product.name} </h1>
-                <div className="fs-5 mb-5">
-                    <span>{`R$ ${product.price}`}</span>
+                <div className="mb-4">
+                    <p className="text-muted mb-1">Preco a vista</p>
+                    <span className="fw-bold text-success" style={{ fontSize: '2rem', lineHeight: 1 }}>
+                      {formattedPrice}
+                    </span>
+                    <p className="small text-muted mb-0 mt-1">Em ate 10x sem juros no cartao</p>
                 </div>
-                <p className="lead">
+                <p className="lead" style={{ textAlign: 'justify' }}>
                 {product.description}
                 </p>
                 <div className="d-flex">
                     <button className=" btn btn-outline-dark flex-shrink-0"
                     type="button"
                     onClick={add_item}
-                    disabled={InCart}
                     >
                       <i className="bi-cart-fill me-1"></i>
-                      {InCart ? 'Adicionado no carrinho' : 'Comprar '}  
+                      Comprar
                     </button>
                 </div>
             </div>

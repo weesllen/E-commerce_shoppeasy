@@ -34,7 +34,7 @@ class Product(models.Model):
 
 class Cart(models.Model):
     cart_code = models.CharField(max_length=11, unique=True)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, blank=True, null=True)
     paid = models.BooleanField(default=False)
     created_at = models.DateField(auto_now_add=True,blank=True,null=False)
     modified_at =models.DateField(auto_now=True,blank=True,null=True)

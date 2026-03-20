@@ -5,9 +5,12 @@ import NavBarLink from './NavBarLink';
 
 const NavBar = ({numCartItems}) => {
     return (
-        <nav className = {` navbar navbar-expand-lg navbar-light bg=white shadow-sm py-3 ${styles.stickyNavBar}`}>
+        <nav className={`navbar navbar-expand-lg navbar-light ${styles.modernNavbar}`}>
           <div className="container">
-            <Link className="navbar-brand fw-bold text-uppercase" to="/">SHOPPEASY</Link>
+            <Link className={`navbar-brand ${styles.brandLogo}`} to="/">
+              <span className={styles.brandIcon}>🛍️</span>
+              SHOPPEASY
+            </Link>
             <button
                 className="navbar-toggler" 
                 type="button"
@@ -21,15 +24,14 @@ const NavBar = ({numCartItems}) => {
             </button> 
             <div className='collapse navbar-collapse justify-content-end' id ='navbarContent'>
                 <NavBarLink/>
-                <Link to= '/cart' className={`btn-dark ms-3 rounded-pill position-relative ${styles.responsivecart}`}>
-                <FaCartShopping/>
-                {numCartItems == 0 || <span
-                className='position-absolute top 0 start 100 translate-middle badge rounded-pill'
-                    style={{ fontSize: '0.85rem', padding: '0.5em', backgroundColor: '#0E689F' }}
-                >
-                    {numCartItems}
-                </span>}
-            </Link>
+                <Link to='/cart' className={`${styles.cartButton} position-relative`}>
+                  <FaCartShopping className={styles.cartIcon}/>
+                  {numCartItems > 0 && (
+                    <span className={styles.cartBadge}>
+                      {numCartItems}
+                    </span>
+                  )}
+                </Link>
           </div>
         </div>    
     </nav>      

@@ -12,11 +12,11 @@ const PaymentStatusPage = ({setNumberCartItems}) => {
   useEffect(function(){
     const queryParams = new URLSearchParams(location.search);
     const paymentId = queryParams.get('paymentId')
-    const payId = queryParams.get('payerId')
+    const payId = queryParams.get('payerId') || queryParams.get('PayerID') || queryParams.get('payerID')
     const ref = queryParams.get('ref')
 
     if(paymentId && payId && ref){
-      api.post(`payment_callback/?paymentId=${paymentId}&payerId=${payId}&ref=${ref}`)
+      api.post(`paypal_payment_callback/?paymentId=${paymentId}&payerId=${payId}&ref=${ref}`)
         .then(res =>{
           setStatusMessage(res.data.message)
           setStatusSubMessage(res.data.subMessage)
@@ -39,7 +39,7 @@ const PaymentStatusPage = ({setNumberCartItems}) => {
       const transactionId = queryParams.get('transaction_id');
 
       if(status && txRef && transactionId){
-        api.post(`payment_callback/?status=${status}&tx_ref=${txRef}&transaction_id=${transactionId}`)
+        api.post(`paypal_payment_callback/?status=${status}&tx_ref=${txRef}&transaction_id=${transactionId}`)
         .then(res =>{
           setStatusMessage(res.data.message)
           setStatusSubMessage(res.data.subMessage)

@@ -25,6 +25,27 @@ paypalrestsdk.configure({
 
 @api_view(['GET'])
 @permission_classes([AllowAny])
+def api_home(request):
+    """API Home - Lista de endpoints disponíveis"""
+    return Response({
+        'message': 'ShoppEasy API está funcionando!',
+        'version': '1.0',
+        'endpoints': {
+            'products': '/products/',
+            'product_detail': '/product_detail/<slug>',
+            'add_item': '/add_item/',
+            'cart': '/get_cart/',
+            'cart_stats': '/get_cart_stat/',
+            'register': '/UserRegister/',
+            'user_info': '/user_info/',
+            'token': '/token/',
+            'token_refresh': '/token/refresh/',
+            'admin': '/admin/',
+        }
+    })
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
 def products(request):
     products = Product.objects.all()
     serializer = ProductSerializers(products, many=True)
@@ -42,16 +63,23 @@ def product_detail(request,slug):
 # User = get_user_model()
 
 @api_view(['POST'])
+@permission_classes([AllowAny])
 def add_item(request):
     cart_code = request.data.get('cart_code')
     product_id = request.data.get('product_id')
 
+    if not cart_code or not product_id:
+        return Response({'error': 'cart_code e product_id são obrigatórios.'}, status=400)
+
     try:
-        cart = Cart.objects.get(cart_code=cart_code)
         product = Product.objects.get(id=product_id)
-    except Cart.DoesNotExist:
-       # anonymous_user, _ = User.objects.get_or_create(username='anonymous_user')
-        cart = Cart.objects.create(cart_code=cart_code)
+    except Product.DoesNotExist:
+        return Response({'error': 'Produto não encontrado.'}, status=404)
+
+    cart = Cart.objects.filter(cart_code=cart_code, paid=False).first()
+    if cart is None:
+        cart_user = request.user if request.user.is_authenticated else None
+        cart = Cart.objects.create(cart_code=cart_code, user=cart_user)
 
     cart_item, created = CartItem.objects.get_or_create(cart=cart, product=product)
     if not created:
@@ -59,19 +87,23 @@ def add_item(request):
         cart_item.save()
 
     serializer = CartItemSerializer(cart_item)
-    return Response({'datat': serializer.data,'message': 'cartItem created successfully'}, status= 201)
+    return Response({'data': serializer.data, 'message': 'cartItem created successfully'}, status=201)
 
 
 @api_view(['GET'])
+@permission_classes([AllowAny])
 def products_in_cart(request):
     cart_code = request.query_params.get('cart_code')
     product_id = request.query_params.get('product_id')
 
+    if not cart_code or not product_id:
+        return Response({'products_in_cart': False})
 
-    cart = Cart.objects.get(cart_code = cart_code)
-    product = Product.objects.get(id = product_id)
+    cart = Cart.objects.filter(cart_code=cart_code, paid=False).first()
+    if cart is None:
+        return Response({'products_in_cart': False})
 
-    products_exist_in_cart = CartItem.objects.filter(cart=cart, product=product).exists()
+    products_exist_in_cart = CartItem.objects.filter(cart=cart, product_id=product_id).exists()
 
     return Response ({'products_in_cart': products_exist_in_cart})
 
@@ -79,7 +111,13 @@ def products_in_cart(request):
 @permission_classes([AllowAny])
 def get_cart_stat(request):
     cart_code = request.query_params.get('cart_code')
-    cart = Cart.objects.get(cart_code=cart_code, paid = False)
+    if not cart_code:
+        return Response({'error': 'cart_code é obrigatório.'}, status=400)
+
+    cart = Cart.objects.filter(cart_code=cart_code, paid=False).first()
+    if cart is None:
+        return Response({'id': None, 'cart_code': cart_code, 'num_of_items': 0})
+
     serializer = SimpleCartSerializer(cart)
     return Response(serializer.data)
 
@@ -88,12 +126,27 @@ def get_cart_stat(request):
 @permission_classes([AllowAny])
 def get_cart(request):
     cart_code = request.query_params.get('cart_code')
-    cart = Cart.objects.get(cart_code=cart_code, paid = False)
+    if not cart_code:
+        return Response({'error': 'cart_code é obrigatório.'}, status=400)
+
+    cart = Cart.objects.filter(cart_code=cart_code, paid=False).first()
+    if cart is None:
+        return Response({
+            'id': None,
+            'cart_code': cart_code,
+            'sum_total': 0,
+            'num_of_items': 0,
+            'created_at': None,
+            'modified_at': None,
+            'items': [],
+        })
+
     serializer = CartSerializer(cart)
-    return Response(serializer.data)    
+    return Response(serializer.data)
 
 
 @api_view(['PATCH']) 
+@permission_classes([AllowAny])
 def update_quantity(request):
     
     try:
@@ -105,23 +158,31 @@ def update_quantity(request):
         cart_item.save()
         serializer = CartItemSerializer(cart_item)
         return Response({'data':serializer.data, 'message': 'Carrinho atualizado com sucesso'})
+    except CartItem.DoesNotExist:
+        return Response({'error': 'Item do carrinho não encontrado.'}, status=404)
     except Exception as e:
         return Response({'error': str(e)}, status=400)
     
 
 @api_view(['POST'])
+@permission_classes([AllowAny])
 def delete_cart_item(request):
     cart_item_id = request.data.get('item_id')
-    cart_item = CartItem.objects.get(id = cart_item_id)
+    try:
+        cart_item = CartItem.objects.get(id = cart_item_id)
+    except CartItem.DoesNotExist:
+        return Response({'error': 'Item do carrinho não encontrado.'}, status=404)
     cart_item.delete()
     return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
+@permission_classes([AllowAny])
 def get_username(request):
     user = request.user
-    return Response({'username': user.username})
+    if user.is_authenticated:
+        return Response({'username': user.username, 'authenticated': True})
+    return Response({'username': None, 'authenticated': False})
 
 
 @api_view(['GET','PATCH'])
@@ -133,11 +194,11 @@ def user_info(request):
         serializer = UserSerializer(user)
         return Response(serializer.data)
 
-    if request.method == 'PUT':
+    if request.method == 'PATCH':
         serializer = UserSerializer(user, data = request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
-            return({'data':serializer.data,'message':'Informações atualizadas com sucesso!'})
+            return Response({'data':serializer.data,'message':'Informações atualizadas com sucesso!'})
         else:
             return Response(serializer.errors, status=400)
 
@@ -153,6 +214,7 @@ def UserRegister(request):
 
 
 @api_view(['POST'])
+@permission_classes([IsAuthenticated])
 def initiate_paypal_payment(request):
     if request.method == 'POST' and request.user.is_authenticated:
 
@@ -212,28 +274,45 @@ def initiate_paypal_payment(request):
 
 
 @api_view(['POST'])
+@permission_classes([AllowAny])
 def paypal_payment_callback(request):
-    payment_id = request.query_params.get('payments')
-    payer_id = request.query_params.get('PayedID')
-    ref = request.quey_params.get('ref')
+    payment_id = request.query_params.get('paymentId') or request.query_params.get('payments')
+    payer_id = (
+        request.query_params.get('payerId')
+        or request.query_params.get('PayerID')
+        or request.query_params.get('payerID')
+        or request.query_params.get('PayedID')
+    )
+    ref = request.query_params.get('ref') or request.query_params.get('tx_ref')
 
-    user = request.user
+    user = request.user if request.user.is_authenticated else None
 
     print('refff',ref)
 
-    transaction = Transaction.objects.get(ref=ref)
+    if not ref:
+        return Response({'error': 'Referência da transação não encontrada.'}, status=400)
+
+    try:
+        transaction = Transaction.objects.get(ref=ref)
+    except Transaction.DoesNotExist:
+        return Response({'error': 'Transação não encontrada.'}, status=404)
 
     if payment_id and payer_id:
         payment = paypalrestsdk.Payment.find(payment_id)
+        execute_result = payment.execute({'payer_id': payer_id})
+
+        if not execute_result:
+            return Response({'error': 'Falha ao confirmar pagamento no PayPal.'}, status=400)
 
         transaction.status = 'completed'
         transaction.save()
-        cart = transaction
+        cart = transaction.cart
         cart.paid = True
-        cart.user = user
+        if user is not None:
+            cart.user = user
         cart.save()
 
         return Response ({'message': 'Pagamento Aprovado', 'subMessage':'O pagamento das suas compras foram realizado com sucesso'})    
 
 
-    else: Response({'error': 'Erro na  realização do pagamento'}, status=200)
+    return Response({'error': 'Erro na realização do pagamento'}, status=400)

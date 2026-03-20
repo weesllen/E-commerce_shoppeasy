@@ -1,10 +1,10 @@
 import Header from './Header'
 import CardContainer from './CardContainer'
-import api from '../../api'
-import { useEffect,useState } from 'react'
+import { useEffect, useState } from 'react'
 import PlaceHolderContainer from '../ui/PlaceHolderContainer'
 import Error from '../ui/Error'
 import { getOrCreateCartCode } from '../../utils/CartUtils'
+import api from '../../api'
 
 const HomePage = () => {
 
@@ -19,21 +19,21 @@ const HomePage = () => {
   useEffect(function(){
 
     setLoading(true)
+
     api.get("products")
-    .then(res =>{
+      .then(res => {
         console.log(res.data)
         setProducts(res.data)
         setLoading(false)
         setError("")
       })
-
-      .catch(err =>{
+      .catch(err => {
         console.log(err.message)
         setLoading(false)
         setError(err.message)
       })
 
-      },[])
+  },[])
 
 
 
